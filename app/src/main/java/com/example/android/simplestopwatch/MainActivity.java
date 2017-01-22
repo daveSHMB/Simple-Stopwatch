@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
     public void startTimer(View view) {
 
         start.setEnabled(false);
+        start.setColorFilter(getResources().getColor(R.color.colorAccent));
         pauseButton.setEnabled(true);
+        pauseButton.setColorFilter(getResources().getColor(R.color.colorPrimaryDark));
         stop.setEnabled(true);
-
+        stop.setColorFilter(getResources().getColor(R.color.colorPrimaryDark));
 
         timer = new Timer();
 
@@ -99,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
         }, 0, 1);
+
+        timerView.setText(getResources().getString(R.string.timer_zero));
     }
 
     /**
@@ -127,14 +131,19 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void cancelTimer(View view){
-        if(!timer.equals(null)){
-            timer.cancel();
-        }
+
+        timer.cancel();
+
+        pause = false; //if cancelled from pause position
 
         start.setEnabled(true);
-        stop.setEnabled(false);
+        start.setColorFilter(getResources().getColor(R.color.colorPrimaryDark));
         pauseButton.setEnabled(false);
-        timerView.setText(String.format("%d:%02d:%02d", 0, 0, 0));
+        pauseButton.setColorFilter(getResources().getColor(R.color.colorAccent));
+        stop.setEnabled(false);
+        stop.setColorFilter(getResources().getColor(R.color.colorAccent));
+        pauseButton.setEnabled(false);
+
     }
 
     /**
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         long minutes = (elapsed / (1000 * 60)) % 60;
         long hours = (elapsed / (1000 * 60 * 60));
 
-        timerView.setText(String.format("%d:%02d:%02d:%02d", hours, minutes, seconds, milliseconds));
+        timerView.setText(String.format("%02d:%02d:%02d:%02d", hours, minutes, seconds, milliseconds));
     }
 }
 
